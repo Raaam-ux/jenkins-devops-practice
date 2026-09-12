@@ -63,6 +63,20 @@ pipeline {
             ls -lh sbom.json
         '''
     }
+}   
+     stage('Push SBOM - OCI Artifact') {
+    steps {
+        echo 'Pushing SBOM to local OCI registry...'
+
+        sh '''
+            oras push \
+              --plain-http \
+              host.docker.internal:5000/jenkins-devops-practice-sbom:latest \
+              sbom.json:application/vnd.cyclonedx+json
+
+            echo "SBOM pushed successfully"
+        '''
+    }
 }
     }
 
