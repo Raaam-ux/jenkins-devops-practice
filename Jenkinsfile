@@ -10,6 +10,19 @@ pipeline {
             }
         }
 
+        stage('Gitleaks Secret Scan') {
+            steps {
+                echo 'Running Gitleaks secret scan...'
+
+                sh '''
+                    docker run --rm \
+                      -v "$WORKSPACE:/repo" \
+                      zricethezav/gitleaks:latest \
+                      detect --source=/repo --no-git
+                '''
+            }
+        }
+
         stage('Build') {
             steps {
                 echo 'Building application...'
