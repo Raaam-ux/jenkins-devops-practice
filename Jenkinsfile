@@ -28,7 +28,21 @@ pipeline {
         echo 'Building Java application with Maven...'
 
         sh '''
-            mvn clean test
+            mvn clean package
+        '''
+    }
+}   
+      stage('Docker Push - Local Registry') {
+    steps {
+        echo 'Pushing Docker image to local registry...'
+
+        sh '''
+            docker tag \
+              jenkins-devops-practice:latest \
+              local-registry:5000/jenkins-devops-practice:latest
+
+            docker push \
+              local-registry:5000/jenkins-devops-practice:latest
         '''
     }
 }
