@@ -23,19 +23,15 @@ pipeline {
             }
         }
 
-        stage('Maven Build') {
-            steps {
-                echo 'Building Java application with Maven...'
+       stage('Maven Build') {
+    steps {
+        echo 'Building Java application with Maven...'
 
-                sh '''
-                    docker run --rm \
-                      -v "$WORKSPACE:/workspace" \
-                      -w /workspace \
-                      maven:3.9-eclipse-temurin-17 \
-                      mvn clean test
-                '''
-            }
-        }
+        sh '''
+            mvn clean test
+        '''
+    }
+}
     }
 
     post {
