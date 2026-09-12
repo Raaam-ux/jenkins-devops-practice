@@ -32,17 +32,17 @@ pipeline {
         '''
     }
 }   
-      stage('Docker Push - Local Registry') {
+     stage('Docker Push - Local Registry') {
     steps {
         echo 'Pushing Docker image to local registry...'
 
         sh '''
             docker tag \
               jenkins-devops-practice:latest \
-              local-registry:5000/jenkins-devops-practice:latest
+              host.docker.internal:5000/jenkins-devops-practice:latest
 
             docker push \
-              local-registry:5000/jenkins-devops-practice:latest
+              host.docker.internal:5000/jenkins-devops-practice:latest
         '''
     }
 }
