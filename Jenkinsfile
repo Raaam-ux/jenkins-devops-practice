@@ -46,6 +46,24 @@ pipeline {
         '''
     }
 }
+     stage('Generate SBOM') {
+    steps {
+        echo 'Generating SBOM...'
+
+        sh '''
+            docker run --rm \
+              -v /var/run/docker.sock:/var/run/docker.sock \
+              aquasec/trivy:latest \
+              image \
+              --format cyclonedx \
+              jenkins-devops-practice:latest \
+              > sbom.json
+
+            echo "SBOM generated successfully"
+            ls -lh sbom.json
+        '''
+    }
+}
     }
 
     post {
