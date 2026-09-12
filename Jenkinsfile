@@ -23,17 +23,17 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Maven Build') {
             steps {
-                echo 'Building application...'
-                echo 'Practice build completed successfully.'
-            }
-        }
+                echo 'Building Java application with Maven...'
 
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                echo 'Practice tests completed successfully.'
+                sh '''
+                    docker run --rm \
+                      -v "$WORKSPACE:/workspace" \
+                      -w /workspace \
+                      maven:3.9-eclipse-temurin-17 \
+                      mvn clean test
+                '''
             }
         }
     }
